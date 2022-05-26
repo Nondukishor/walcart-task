@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { useMutation } from '@apollo/client';
 import { UPDATE_CATEGORY } from '../apollo/mutations/CATEGORIES';
 import { LayoutContext } from '../layout/LayoutContext';
+import MegaMenu from '../components/Megamenu/VerticalMenu';
 const UpdateCategories = () => {
   const ctx = React.useContext(LayoutContext);
   const [UpdateCategory] = useMutation(UPDATE_CATEGORY);
