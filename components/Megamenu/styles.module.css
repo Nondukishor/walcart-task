@@ -61,6 +61,7 @@
 .menuChildren {
     display: none;
     position: absolute;
+    list-style: none;
     left: 100%;
     top: 0;
     margin: 0;
@@ -144,6 +145,8 @@
     color: #777;
 }
 
+
+
 .menuChildren {
     background-color: #fff;
 }
@@ -165,10 +168,11 @@
 .menuActive>.menuLink,
 .menuLink:hover,
 .menuLink:focus {
+    color: #32b7d6;
     background-color: #eee;
 }
 
 .menuSelected>.menuLink,
 .menuSelected>.menuLink:visited {
-    color: #000;
+    color: #32b7d6;
 }

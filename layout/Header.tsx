@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ScrollElevation } from './ScrollElevation';
-import { HeaderProps, TopHeaderProps } from './interface/header';
+import { TopHeaderProps } from './interface/header';
 import { styled } from '@mui/material/styles';
 import { LayoutContext } from './LayoutContext';
-import MegaMenu from '../components/Megamenu/VerticalMenu';
+import NestedDropdownMenu from '../components/Megamenu/NestedDropdown';
+import { useQuery } from '@apollo/client';
+import { GET_CATEGORIES } from '../apollo/queries/CATEGORY';
+import { Skeleton } from '@mui/material';
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -21,6 +22,8 @@ const AppBar = styled(MuiAppBar, {
 })<AppBarProps>(({ theme, open }) => {
   const ctx = useContext(LayoutContext);
   return {
+    backgroundColor: '#000000',
+    border: '#e5e5e5',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -39,6 +42,26 @@ const AppBar = styled(MuiAppBar, {
 
 const TopHeader = (props: TopHeaderProps) => {
   const ctx = useContext(LayoutContext);
+  const [open, setOpen] = useState(true);
+  const { data, loading } = useQuery(GET_CATEGORIES, {
+    fetchPolicy: 'network-only',
+    variables: {
+      category: {
+        filter: {
+          name: 'root',
+        },
+        pagination: {
+          limit: 100,
+          offset: 0,
+        },
+      },
+    },
+  });
+
+  const handleClose = () => setOpen(true);
+
+  if (loading) return <Skeleton />;
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -60,6 +83,7 @@ const TopHeader = (props: TopHeaderProps) => {
             <Typography variant="h6" noWrap component="div">
               {props.title}
             </Typography>
+            <NestedDropdownMenu />
           </Toolbar>
         </AppBar>
       </ScrollElevation>

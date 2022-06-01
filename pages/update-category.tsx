@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, useState, SetStateAction } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,12 +10,25 @@ import { useMutation } from '@apollo/client';
 import { UPDATE_CATEGORY } from '../apollo/mutations/CATEGORIES';
 import { LayoutContext } from '../layout/LayoutContext';
 import MegaMenu from '../components/Megamenu/VerticalMenu';
+
 const UpdateCategories = () => {
   const ctx = React.useContext(LayoutContext);
   const [UpdateCategory] = useMutation(UPDATE_CATEGORY);
+  const [error, setError] = useState({
+    name: false,
+    categoryUid: false,
+  });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const name = data.get('name');
+    const categoryUid = data.get('categoryUid');
+    if (!name && !categoryUid)
+      return setError((pre: any) => ({ name: true, categoryUid: true }));
+    else if (!name) return setError((pre: any) => ({ ...pre, name: true }));
+    else if (!categoryUid)
+      return setError((pre: any) => ({ ...pre, categoryUid: true }));
+
     UpdateCategory({
       variables: {
         category: {
@@ -68,6 +81,7 @@ const UpdateCategories = () => {
                 autoComplete="given-name"
                 name="name"
                 required
+                error={error.name}
                 fullWidth
                 id="title"
                 label="Title"
@@ -77,8 +91,8 @@ const UpdateCategories = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 required
+                error={error.categoryUid}
                 fullWidth
-                defaultValue={'C-JA72EM'}
                 id="category-id"
                 label="Parent Category ID"
                 name="categoryUid"

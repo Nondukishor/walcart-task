@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_COUNTRIES = gql`
+export const GET_CATEGORIES = gql`
 query GetCategories($filter: CategoryFilterInput, $pagination: PaginationInput) {
   getCategories(filter: $filter, pagination: $pagination) {
     statusCode

@@ -10,6 +10,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 const clientSideEmotionCache = createEmotionCache();
 import MainLayout from '../layout/MainLayout';
 import LayoutContextProvider from '../layout/LayoutContext';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
+
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
@@ -17,24 +20,26 @@ interface MyAppProps extends AppProps {
 function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ApolloProvider client={client}>
-          <LayoutContextProvider>
-            <Head>
-              <meta
-                name="viewport"
-                content="initial-scale=1, width=device-width"
-              />
-            </Head>
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
-          </LayoutContextProvider>
-        </ApolloProvider>
-      </ThemeProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <ApolloProvider client={client}>
+            <LayoutContextProvider>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1, width=device-width"
+                />
+              </Head>
+              <MainLayout>
+                <Component {...pageProps} />
+              </MainLayout>
+            </LayoutContextProvider>
+          </ApolloProvider>
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   );
 }
 

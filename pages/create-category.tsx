@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,9 +10,12 @@ import { useMutation } from '@apollo/client';
 import { CREATE_CATEGORY } from '../apollo/mutations/CATEGORIES';
 import { LayoutContext } from '../layout/LayoutContext';
 import { NextPage } from 'next';
+import NestedDropdownMenu from '../components/NestedDropdown/NestedDropdown';
+
 const CreateCategories: NextPage = () => {
   const ctx = React.useContext(LayoutContext);
   const [CreateCategory] = useMutation(CREATE_CATEGORY);
+  const [value, setValue] = useState<string | null | undefined>('');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -74,11 +77,11 @@ const CreateCategories: NextPage = () => {
                 autoFocus
               />
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
-                defaultValue={'C-YPSLUG'}
                 id="category-id"
                 label="Parent Category ID"
                 name="parentCategoryUid"

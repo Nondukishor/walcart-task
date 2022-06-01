@@ -1,148 +1,119 @@
-import React from 'react';
-import classes from './styles.module.css';
+import * as React from 'react';
 import clsx from 'clsx';
+import classes from './styles.module.css';
+import { CssBaseline } from '@mui/material';
 
-const MegaMenu = () => {
-  return (
-    <div className={clsx(classes.menu, classes.customDisplay)}>
-      <ul className={clsx(classes.menuList)}>
-        <li className={classes.menuHeading}>Mega Menu</li>
+export const menu_list = [
+  {
+    title: 'menu1',
+    link: null,
+    parent: true,
+    children: [
+      {
+        title: 'submenu 1',
+        link: '#',
+        children: [
+          {
+            title: 'submenu child 1',
+            link: '#',
+          },
+          {
+            title: 'submenu child 2',
+            link: '#',
+            children: [
+              {
+                link: '#',
+                title: 'Hello world',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'submenu 2',
+        link: '#',
+        children: [],
+      },
+    ],
+  },
 
-        <li
-          className={clsx(
-            classes.menuItem,
-            classes.menuHasChildren,
-            classes.menuAllowHover
-          )}
-        >
-          <a href="#" className={classes.menuLink}>
-            {' '}
-            Tutorials{' '}
-          </a>
-          <ul className={clsx(classes.menuChildren)}>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                Data Structures and Algorithms
-              </a>
-            </li>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                GATE 2022{' '}
-              </a>
-            </li>
+  {
+    title: 'menu2',
+    link: null,
+    parent: true,
+    children: [
+      {
+        title: 'submenu 1',
+        link: '#',
+        children: [
+          {
+            title: 'submenu child 1',
+            link: '#',
+          },
+          {
+            title: 'submenu child 2',
+            link: '#',
+          },
+        ],
+      },
+      {
+        title: 'submenu 2',
+        link: '#',
+        children: [],
+      },
+    ],
+  },
 
-            <li
-              className={clsx(
-                classes.menItem,
-                classes.menuHasChildren,
-                classes.menuAllowHover
-              )}
+  {
+    title: 'menu2',
+    link: null,
+    parent: true,
+    children: [
+      {
+        title: 'submenu 1',
+        link: '#',
+        children: [],
+      },
+      {
+        title: 'submenu 2',
+        link: '#',
+        children: [],
+      },
+    ],
+  },
+];
+
+function showMenu(list: any) {
+  if (Array.isArray(list)) {
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        {list.map((itm, index) => (
+          <li
+            key={index}
+            className={clsx(
+              classes.menuItem,
+              classes.menuHasChildren,
+              classes.menuAllowHover
+            )}
+          >
+            <a
+              href="#"
+              className={itm.children?.length > 0 ? classes.menuLink : ''}
             >
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Practice{' '}
-              </a>
-              <ul className={classes.menuChildren}>
-                <li className={clsx(classes.menuItem)}>
-                  <a href="#" className={classes.menuLink}>
-                    {' '}
-                    HTML{' '}
-                  </a>
-                </li>
-                <li className={clsx(classes.menuItem)}>
-                  <a href="#" className={classes.menuLink}>
-                    {' '}
-                    CSS{' '}
-                  </a>
-                </li>
-                <li className={clsx(classes.menuItem)}>
-                  <a href="#" className={classes.menuLink}>
-                    {' '}
-                    JavaScript{' '}
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+              {itm.title}
+            </a>
 
-        <li
-          className={clsx(
-            classes.menuItem,
-            classes.menuHasChildren,
-            classes.menuAllowHover
-          )}
-        >
-          <a href="#" className={classes.menuLink}>
-            {' '}
-            Students{' '}
-          </a>
+            {Array.isArray(itm.children) && (
+              <ul className={classes.menuChildren}>{showMenu(itm.children)}</ul>
+            )}
+          </li>
+        ))}
+      </React.Fragment>
+    );
+  }
+}
 
-          <ul className={classes.menuChildren}>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Competitive Programming{' '}
-              </a>
-            </li>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Geeks of the Month{' '}
-              </a>
-            </li>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Placement Courses{' '}
-              </a>
-            </li>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Internship{' '}
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li
-          className={clsx(
-            classes.menuItem,
-            classes.menuHasChildren,
-            classes.menuAllowHover
-          )}
-        >
-          <a href="#" className={classes.menuLink}>
-            {' '}
-            Jobs{' '}
-          </a>
-          <ul className={classes.menuChildren}>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Apply for Jobs{' '}
-              </a>
-            </li>
-            <li className={clsx(classes.menuItem)}>
-              <a href="#" className={classes.menuLink}>
-                {' '}
-                Post a Jobs{' '}
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li className={clsx(classes.menuItem)}>
-          <a href="#" className={classes.menuLink}>
-            {' '}
-            Courses{' '}
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
-export default MegaMenu;
+export default function MegaMenu() {
+  return <ul className={clsx(classes.menuList)}>{showMenu(menu_list)}</ul>;
+}
